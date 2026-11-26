@@ -1,0 +1,38 @@
+{
+  "name": "Workshop environment check",
+  // TODO: replace "jc-workshop:dev" (here AND in initializeCommand below) with the published image name,
+  // e.g. ghcr.io/ORG/jc-workshop:1.0. It must be the same image as in the project's devcontainer.json.
+  "image": "jc-workshop:dev",
+  "remoteUser": "student",
+
+  // Runs on the student's computer before the container starts. It creates a placeholder .env file if there is none,
+  // because the container needs one (the real key is pasted there on the workshop day). Works on Windows and Mac:
+  // it only needs Docker. It never overwrites an existing .env.
+  "initializeCommand": [
+    "docker", "run", "--rm", "-v", "${localWorkspaceFolder}:/w", "--entrypoint", "sh", "jc-workshop:dev",
+    "-c", "[ -f /w/.env ] || printf 'OPENROUTER_API_KEY=paste-your-key-here\\n' > /w/.env"
+  ],
+
+  // Sandbox limits: no extra Linux powers, no privilege escalation, limited processes. No Docker socket is shared.
+  "runArgs": [
+    "--env-file", "${localWorkspaceFolder}/.env",
+    "--cap-drop=ALL",
+    "--security-opt=no-new-privileges",
+    // Needed so Codex's own read-only sandbox can start inside the container (so it must ASK before writing files).
+    // Trade-off: this drops Docker's default syscall filter. Other limits stay.
+    "--security-opt=seccomp=unconfined",
+    "--pids-limit=512"
+  ],
+
+  "customizations": {
+    "vscode": {
+      "extensions": [],  // none needed: the AI agent is the Codex CLI, started by typing `codex` in the terminal
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "telemetry.telemetryLevel": "off",
+        "files.exclude": { "**/__pycache__": true },
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  }
+}
