@@ -1,15 +1,15 @@
 {
   "name": "Workshop environment check",
-  // TODO: replace "jc-workshop:dev" (here AND in initializeCommand below) with the published image name,
-  // e.g. ghcr.io/ORG/jc-workshop:1.0. It must be the same image as in the project's devcontainer.json.
-  "image": "jc-workshop:dev",
+  // Published image (build/push with environment/docker/build_and_push.sh). Keep it identical here and in initializeCommand below,
+  // and in the other package's devcontainer.json.
+  "image": "ghcr.io/thanhlecongg/jc-workshop:1.0",
   "remoteUser": "student",
 
   // Runs on the student's computer before the container starts. It creates a placeholder .env file if there is none,
   // because the container needs one (the real key is pasted there on the workshop day). Works on Windows and Mac:
   // it only needs Docker. It never overwrites an existing .env.
   "initializeCommand": [
-    "docker", "run", "--rm", "-v", "${localWorkspaceFolder}:/w", "--entrypoint", "sh", "jc-workshop:dev",
+    "docker", "run", "--rm", "-v", "${localWorkspaceFolder}:/w", "--entrypoint", "sh", "ghcr.io/thanhlecongg/jc-workshop:1.0",
     "-c", "[ -f /w/.env ] || printf 'OPENROUTER_API_KEY=paste-your-key-here\\n' > /w/.env"
   ],
 

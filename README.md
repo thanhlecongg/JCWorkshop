@@ -1,45 +1,56 @@
-# Before the Workshop: Test Your Laptop (about 45–60 minutes)
+# Set Up Your Laptop for the Workshop
 
-**Workshop:** Build with AI: Make It Work, Make It Reliable
-**Do this by:** [DATE, 5 days before the workshop]
-**Stuck? Contact:** [NAME / EMAIL / CHAT LINK]. Tell us early. Nothing is wrong with you if setup fails. Laptops differ, and we have backup options.
+**Build with AI: Make It Work, Make It Reliable**
 
----
+| | |
+|---|---|
+| **Do this by** | Sunday, 29 November 2026 |
+| **Time needed** | About 45-60 minutes, plus download time. Do it on home Wi-Fi, not at school, with your charger plugged in. |
+| **Stuck? Contact** | Please contact congthanh_le@sutd.edu.sg if you have any troubles. Tell us early. If a step fails, it may be not your fault: laptops are different and we have backup options. |
 
-## What is this for?
+In the workshop you will build a delivery robot together with an AI coding agent: a software that can write code, run commands and change files when you ask it to. You will work in small steps, predict what will happen, test it, and learn how to use AI responsibly.
 
-In the workshop you will use an **AI coding agent**. It can write code, run commands, and change files. That is powerful but also risky, so we run it inside a **sandbox**: a sealed box on your laptop (a program called Docker). The agent can only touch one folder you give it. It cannot see your photos, school files, or the rest of your laptop. Using AI responsibly starts with limiting what it can touch.
+This guide gets your laptop ready. You do **not** need any coding experience. You do **not** need an AI account or an access key: we give you the key on the workshop day. Please do **not** sign up for any AI service for this workshop.
 
-This folder is a **test**. You will set up the box, open it in VS Code, and run a few checks. You do **not** need any coding experience and you do **not** need an AI account or an access key. We give you the key on the workshop day. The AI agent is a program called **Codex** that you start by typing `codex` in the terminal; you will use it on the workshop day.
-
-**What you need:** your own laptop (Windows 10/11 or a Mac), your charger, home Wi-Fi, about 10 GB free disk space, and at least 8 GB of RAM. You need permission to install software (ask the owner of the laptop, for example a parent). Do **not** sign up for any AI service for this workshop.
-
----
-
-## Step 0. Check your laptop (2 minutes)
-
-**Windows:** press **Windows key + R**, type `winver`, press Enter. You need **Windows 10 version 22H2** or newer, or **Windows 11**. Then press **Ctrl + Shift + Esc** → **Performance** tab → **CPU**. Look for **Virtualization: Enabled**. If it says *Disabled*, see Problem 2 below.
-
-**Mac:** click the **Apple menu → About This Mac**. Note whether it says **Apple M1/M2/M3/…** (Apple silicon) or **Intel**. You need a recent macOS (Docker supports the current macOS and the two before it).
-
-Check free disk space (Windows: File Explorer → This PC; Mac: About This Mac → Storage). You need about 10 GB free.
+A Word version of this guide with pictures is in this folder: `Student_Setup_Guide.docx`.
 
 ---
 
-## Step 1. Install Docker Desktop (10–20 minutes)
+## 1. What you are setting up, and why
+
+An AI agent is powerful, but it can also make mistakes. So, we do not let it run directly on your laptop. We put it inside a **sandbox**: a sealed box on your laptop. The AI can only touch **one folder** that you share with the box. It cannot see your photos, school files, passwords or anything else. Using AI responsibly starts with limiting what it can touch.
+
+You will install two programs. Everything else comes inside the box.
+
+| Program | What it does for you |
+|---|---|
+| **Docker Desktop** | Builds and runs the sealed box (called a **container**) on your laptop. |
+| **Visual Studio Code (VS Code)** | A free editor. It shows your files and gives you a **terminal** (a place to type commands). With the Dev Containers extension, it opens your folder **inside** the box. |
+| **Dev Containers** (extension) | The small add-on that lets VS Code work inside the docker. |
+| **Codex** | The AI coding agent. It lives inside the box. On the workshop day you start it by typing `codex` in the VS Code terminal. |
+| **MiniGrid** | The library that makes the robot world. It is already inside the box. |
+
+## 2. Before you start
+
+**What you need**
+
+- Your own laptop: Windows 10 (version 22H2 or newer) or Windows 11 or Ubuntu, or a Mac with a recent macOS.
+- At least **8 GB of RAM** and about **15 GB of free disk space**.
+- Your charger and home Wi-Fi. The downloads are large, so please do it with stable internet connection.
+- **Permission to install software.** Ask the owner of the laptop (for example a parent) if you are not sure. Windows may ask for an administrator password.
+
+## 3. Step by step
+
+### Step 1. Install Docker Desktop (10 to 20 minutes)
 
 1. Go to **https://www.docker.com/products/docker-desktop/** and download Docker Desktop for your system.
-   - Mac: choose **Apple chip** or **Intel chip** to match Step 0.
-   - Windows: choose **Windows (AMD64)**, which is correct for almost all laptops.
-2. Open the installer and follow the prompts.
-   - **Windows:** keep **"Use WSL 2 instead of Hyper-V"** ticked if you see it. You will be asked for administrator permission. The installer may ask you to **restart** the laptop; do it, then open Docker Desktop again.
-   - **Mac:** drag Docker into **Applications** and open it. It may ask for your Mac password. On an Apple silicon Mac you may be offered Rosetta; accept it.
+2. Open the installer and follow the official instructions.
 3. If Docker asks you to **sign in or create an account**, look for **Skip** and use it. You do not need an account. Accept the terms if asked.
-4. Wait until Docker Desktop shows **"Engine running"** (a green status at the bottom left). The first start can take a few minutes.
+4. Wait until Docker Desktop shows **"Engine running"** (a green dot at the bottom left). The first start can take a few minutes.
 
-## Step 2. Test that Docker works (2 minutes)
+### Step 2. Test that Docker works (2 minutes)
 
-Open a terminal: **Windows:** press the Windows key, type **PowerShell**, open **Windows PowerShell**. **Mac:** press **Cmd + Space**, type **Terminal**, press Enter.
+Open a terminal. **Windows:** press the Windows key, type **PowerShell** and open **Windows PowerShell**. **Mac:** press **Cmd + Space**, type **Terminal** and press Enter.
 
 Type this and press Enter:
 
@@ -47,87 +58,93 @@ Type this and press Enter:
 docker run hello-world
 ```
 
-You should see a message that starts with **"Hello from Docker!"**. If you see an error, go to the Problems section.
+You should see a message that starts with **"Hello from Docker!"**. The first time, Docker downloads a tiny test program, so you will also see some lines about pulling an image.
 
-## Step 3. Install VS Code and the Dev Containers extension (5–10 minutes)
+> **If you see an error:** read the message. "Cannot connect to the Docker daemon" usually means Docker Desktop is not running yet: open it and wait for "Engine running".
 
-1. Go to **https://code.visualstudio.com/** and install **Visual Studio Code** (free). Open it once.
-2. Click the **Extensions** icon in the left bar (four squares). Search for **Dev Containers** (by Microsoft). Click **Install**.
+### Step 3. Install VS Code and the Dev Containers extension (5 to 10 minutes)
 
-## Step 4. Download the sandbox and this folder (10–20 minutes)
+1. Go to **https://code.visualstudio.com/** and install **Visual Studio Code** (it is free). Open it once.
+2. Click the **Extensions** icon in the left bar (it looks like four squares). Search for **Dev Containers** (by Microsoft) and click **Install**.
 
-This is a large download, so **do it on home Wi-Fi, not at school**. Keep the laptop plugged in.
+### Step 4. Download the sandbox and the workshop folder (10 to 20 minutes)
 
-In the terminal from Step 2, type:
+This is a large download. **Use home Wi-Fi, keep the laptop plugged in, and keep Docker Desktop open.**
 
-```
-docker pull [IMAGE NAME, e.g. ghcr.io/ORG/jc-workshop:1.0]
-```
+1. In the terminal from Step 2, type the command below and press Enter. It downloads the sandbox (called an **image**). Wait until it finishes.
 
-Then download this folder: [DOWNLOAD LINK / GIT LINK for the **environment** package]. Unzip it to a place you can find, for example **C:\JCWorkshop** (Windows) or **Documents/JCWorkshop** (Mac). **Windows: do not put it inside OneDrive or Desktop**; those are synced and can cause errors.
+   ```
+   docker pull ghcr.io/thanhlecongg/jc-workshop:1.0
+   ```
 
-## Step 5. Open it in the sandbox (5–10 minutes, the first time)
+2. Download the workshop folder from **https://github.com/thanhlecongg/JCWorkshop**
+3. Unzip it to a place you can find, for example **C:\JCWorkshop** (Windows) or **Documents/JCWorkshop** (Mac). **Windows: do not put it inside OneDrive or Desktop.** Those folders are synced and can cause errors.
 
-1. In VS Code: **File → Open Folder…** and choose the folder you unzipped (the one that contains `check_env.py`). Tick "Trust" if asked.
-2. A pop-up at the bottom right says **"Reopen in Container"**. Click it. (If you miss it: press **Ctrl/Cmd + Shift + P**, type `Reopen in Container`, press Enter.)
-3. **The first time takes a few minutes**, because VS Code installs its tools inside the box. Wait until the bottom-left corner shows **Dev Container: Workshop environment check**. Next time it will be much faster.
+### Step 5. Open it in the sandbox (a few minutes, the first time)
 
-## Step 6. Run the checks (5 minutes)
+1. Make sure Docker Desktop is running. In VS Code choose **File, then Open Folder...** and select the folder you unzipped (the one that contains `check_env.py`). If VS Code asks whether you trust the authors, choose **Yes, I trust the authors**.
+2. A pop-up appears at the bottom right. Click **Reopen in Container**. If you miss it, press **Ctrl/Cmd + Shift + P**, type `Reopen in Container` and press Enter.
+3. **Wait.** The first time takes a few minutes because VS Code installs its tools inside the box. When it is finished, the bottom-left corner of VS Code shows **Dev Container: Workshop environment check**.
 
-Open the terminal inside VS Code: **Terminal → New Terminal**. Type:
+> **Why we do this at home:** the first start downloads a lot. Doing it now means that on the workshop day opening the box is much faster.
 
-```
-python check_env.py
-```
+### Step 6. Run the check (5 minutes)
 
-You will see a list of checks marked **OK**, **WARN** or **FAIL**.
+1. Open the terminal **inside VS Code**: choose **Terminal, then New Terminal**. Check that the bottom-left still says Dev Container.
+2. Type this and press Enter:
 
-- **OK** everywhere means you are ready.
-- **FAIL** means something must be fixed. Take a screenshot and send it to us.
+   ```
+   python check_env.py
+   ```
 
-The check also makes a small **replay**: look in the left bar for the folder **out** and click **robot_demo.gif**. You will see a delivery robot carry lunch to a hungry student: it goes around a cart, keeps out of a no-entry room, and waits for a student who walks across its way. At the end the student smiles. In the workshop you will build a robot like this one, step by step, with an AI coding agent.
+You will see a list of checks. Each line is marked **OK**, **WARN** or **FAIL**.
 
-## Step 7. What to bring on the workshop day
+| Mark | What it means |
+|---|---|
+| **OK** | This part works. |
+| **WARN** | Something is not perfect, but it is not a problem yet. Read the message. If you changed something, run the check again. |
+| **FAIL** | Something must be fixed. Take a screenshot and send it to us. Do not try to change settings yourself. |
 
-- Your laptop, **fully charged**, and your charger
-- Docker Desktop already installed and **opened once** (just start it before the session so it is running)
-- VS Code installed, with the Dev Containers extension
+**Watch the demo robot.** The check also makes a small replay. In the VS Code left bar, open the **out** folder and click **robot_demo.gif**. You will see a delivery robot carry lunch to a hungry student. It goes around a cart, keeps out of a no-entry room, and waits for a student who walks across its way. At the end the student smiles.
 
-**On the workshop day:** we will give you a **link to the workshop project (Git)** and a short **access key**. You will download the project, open it in VS Code the same way as in Step 5 ("Reopen in Container"), and paste the key into the file named **.env** in the project folder, replacing `paste-your-key-here`. **Keep the key private:** do not post it, photograph it, or share it. We can cancel it at any time, and it has a spending limit.
+> **You are done!** Close VS Code and Docker Desktop if you like. Nothing else is needed until the workshop day.
 
 ---
 
-## Problems and fixes
+## 4. If something goes wrong
+
+**Rule of thumb:** if you have spent more than 20 minutes on one problem, stop and message us. Take a screenshot of the error first.
 
 | # | What you see | What to try |
 |---|---|---|
-| 1 | Installer says **administrator permission** is needed | Ask the owner of the laptop (a parent) to type their password / approve. Do not change security settings yourself. |
-| 2 | Windows says **virtualization is disabled** (Task Manager shows *Disabled*), or Docker says "Virtualization support not detected" | Virtualization must be switched on in the laptop's BIOS/UEFI settings. Search your laptop brand + "enable virtualization" (for example "Lenovo enable virtualization"), or **contact us**. Do not guess in BIOS. |
-| 3 | Docker says **WSL 2** is missing or needs updating | In PowerShell run `wsl --update`, then restart the laptop and open Docker Desktop again. If that fails, contact us. |
-| 4 | Docker Desktop is stuck on **"Starting…"** for more than 10 minutes | Restart the laptop, open Docker Desktop. Check that you have at least 8 GB RAM and about 10 GB free disk. |
-| 5 | VS Code does not show **Reopen in Container** | Check that the **Dev Containers** extension is installed (Step 3) and Docker Desktop shows "Engine running". Then press Ctrl/Cmd + Shift + P and run **Dev Containers: Reopen in Container**. Make sure you opened the folder that contains `.devcontainer`. |
-| 6 | **"Cannot connect to the Docker daemon"** / **"docker: command not found"** | Docker Desktop is not running or not installed properly. Open Docker Desktop, wait for "Engine running", then try again. On Windows, close and reopen PowerShell. |
-| 7 | Download is very slow or fails | Try again on home Wi-Fi or a mobile hotspot. Keep the laptop awake and plugged in. Tell us if it fails twice. |
-| 8 | Not enough disk space | Free about 10 GB (empty Downloads, remove big videos). Ask us if you are unsure what is safe to delete. |
-| 9 | Chromebook, tablet, or an old laptop | Docker and VS Code containers will not work. **Tell us now**; we will arrange a loan laptop or share a partner's laptop. |
-| 10 | `python check_env.py` shows **FAIL** for "Codex's safety sandbox starts" | Take a screenshot and send it to us. Do not try to change settings yourself. |
-| 11 | `check_env.py` says it **cannot reach openrouter.ai** | Your network may block it. Try a phone hotspot. Tell us if it still fails. |
-| 12 | VS Code stays on "Setting up dev container" or "Starting" for more than 15 minutes | Wait a bit more on a good connection. If nothing changes: press Ctrl/Cmd + Shift + P → **Developer: Reload Window**, or restart Docker Desktop. Tell us if it still fails. |
-| 13 | Anything else | Take a screenshot of the error and send it to **[CONTACT]**. Tell us your laptop type (Windows version or Mac chip). |
-
-**Rule of thumb:** If you have spent more than 20 minutes on one problem, stop and message us.
+| 1 | The installer says **administrator permission** is needed | Ask the owner of the laptop (a parent) to type their password or approve. Do not change security settings yourself. |
+| 2 | Windows says **virtualization is disabled** (Task Manager shows Disabled), or Docker says "Virtualization support not detected" | Virtualization must be switched on in the laptop's BIOS/UEFI settings. Search your laptop brand plus "enable virtualization" (for example "Lenovo enable virtualization"), or **contact us**. Do not guess in the BIOS. |
+| 3 | Docker says **WSL 2** is missing or needs updating | In PowerShell run `wsl --update`, restart the laptop and open Docker Desktop again. If that fails, contact us. |
+| 4 | Docker Desktop is stuck on **"Starting..."** for more than 10 minutes | Restart the laptop and open Docker Desktop. Check that you have at least 8 GB of RAM and about 15 GB of free disk space. |
+| 5 | VS Code does not show **Reopen in Container** | Check that the **Dev Containers** extension is installed (Step 3) and Docker Desktop says "Engine running". Then press Ctrl/Cmd + Shift + P and run **Dev Containers: Reopen in Container**. Make sure you opened the folder that contains `.devcontainer`. |
+| 6 | "Cannot connect to the Docker daemon" or "docker: command not found" | Docker Desktop is not running or not installed properly. Open Docker Desktop, wait for "Engine running" and try again. On Windows, close and reopen PowerShell. |
+| 7 | A download is very slow or fails | Try again on home Wi-Fi or a mobile hotspot. Keep the laptop awake and plugged in. Tell us if it fails twice. |
+| 8 | Not enough disk space | Free about 15 GB (empty Downloads, remove big videos). Ask us if you are unsure what is safe to delete. |
+| 9 | `python check_env.py` shows **FAIL** for "Codex's safety sandbox starts" | Take a screenshot and send it to us. Do not try to change settings yourself. |
+| 10 | `check_env.py` says it **cannot reach openrouter.ai** | Your network may block it. Try a phone hotspot. Tell us if it still fails. |
+| 11 | VS Code stays on "Setting up dev container" for more than 15 minutes | Wait a bit more on a good connection. If nothing changes, press Ctrl/Cmd + Shift + P and choose **Developer: Reload Window**, or restart Docker Desktop. Tell us if it still fails. |
+| 12 | Anything else | Take a screenshot of the error and send it to congthanh_le@sutd.edu.sg. Tell us your laptop type. |
 
 ---
 
-## After the workshop: remove everything (optional)
+## 5. On the workshop day
 
-- Run `docker system prune -a` to delete the downloaded images.
-- Uninstall **Docker Desktop** like any other program (Windows: Settings → Apps; Mac: drag it from Applications to the Bin).
-- Uninstall **Visual Studio Code** if you do not want it.
-- Delete the workshop folders when you are finished with them. Please keep your work until the challenge ends.
+**Bring**
 
----
+- Your laptop, **fully charged**, and your charger.
+- Docker Desktop already installed and **opened once**. Start it before the session so it says "Engine running".
+- VS Code installed, with the Dev Containers extension.
 
-## A note for parents / guardians
+**We will give you** a link to the **workshop project** (on Git) and a short **access key**.
 
-Your child will install **Docker Desktop** and **Visual Studio Code**, widely used free tools (Docker runs programs inside an isolated container), and download a workshop image of about [SIZE]. Installation needs administrator permission and may need a restart. The workshop access key is issued and controlled by the organisers, is spending-limited, and is cancelled after the challenge. Students are asked not to type personal information into the AI tool. [ADD: data/privacy statement, whether prompts or chat logs are stored, who can see them, and your contact details, to be confirmed with the school.]
+1. Download the workshop project from the link and unzip it (again: not in OneDrive or Desktop).
+2. Paste your key into the file named **.env** in the project folder, replacing `paste-your-key-here`. The line must look like `OPENROUTER_API_KEY=` followed by your key, with no spaces and no quotes. (If you cannot see `.env`, open the folder once in VS Code, paste the key, then choose **Dev Containers: Rebuild Container**.)
+3. Open the project folder in VS Code and choose **Reopen in Container**, the same way as in Step 5.
+4. In the VS Code terminal, you start the AI agent by typing `codex`. We will show you how.
+
+> **Keep your access key private.** Do **not** post it, photograph it, share it, or paste it into a chat or a file you upload. We can cancel it at any time, and it has a spending limit. If you think someone saw it, tell us straight away. We will give you a new one.
